@@ -267,3 +267,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/java,linux,macos,maven,windows,eclipse,netbeans,intellij
 /hedera-sdk-java.iml
+/.idea/
