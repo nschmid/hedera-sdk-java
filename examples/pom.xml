@@ -4,12 +4,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hedera.hashgraph</groupId>
-	<artifactId>java-sdk-examples</artifactId>
-	<version>0.2.0</version>
-	<packaging>jar</packaging>
+	<parent>
+		<groupId>com.hedera.hashgraph</groupId>
+		<artifactId>hedera-sdk-java</artifactId>
+		<version>0.2.0</version>
+	</parent>
 
-	<name>hedera-sdk-java-examples</name>
+	<artifactId>examples</artifactId>
+	<version>0.2.0</version>
+
+	<name>examples</name>
 	<description>Example usage of the java SDK for interacting with the Hedera API</description>
 	<url>http://www.hedera.com</url>
 
@@ -60,7 +64,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<release>10</release>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
 <!-- 			<plugin>

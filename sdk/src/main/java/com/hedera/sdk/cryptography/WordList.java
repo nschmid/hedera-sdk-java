@@ -509,7 +509,7 @@ public class WordList {
 			"teeth", "tell", "temper", "temple", "tempo", "tempt", "ten",
 			"tenant", "tend", "tender", "tendon", "tennis", "tenor", "tense",
 			"tent", "tenth", "tenure", "Teresa", "term", "terror", "terse",
-			"test", "Texas", "text", "thank", "thaw", "them", "theme", "thence",
+            "src/test/java/test", "Texas", "text", "thank", "thaw", "them", "theme", "thence",
 			"theory", "there", "these", "thesis", "they", "thick", "thief",
 			"thigh", "thin", "thing", "think", "third", "thirst", "thirty",
 			"this", "Thomas", "thorn", "those", "though", "thread", "threat",
