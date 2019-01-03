@@ -24,15 +24,15 @@ public class HederaNode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	final ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(HederaNode.class);
 	private String host = "";
-    private int port = 0;
-    private HederaAccountID accountID = null;
+	private int port = 0;
+	private HederaAccountID accountID = null;
 	// GRPC
-	private ManagedChannel grpcChannel = null; 
-    // BUSY network handling
+	private ManagedChannel grpcChannel = null;
+	// BUSY network handling
 	private int busyRetryCount = 2;
 	private int waitMillisLong = 510;
 	private int waitMillisShort = 11;
-	
+
 	/**
 	 * The default fee associated with running an account create transaction
 	 */
@@ -69,7 +69,7 @@ public class HederaNode implements Serializable {
 	 * The default fee associated with an get records query against an account
 	 */
 	public long accountGetRecordsQueryFee = 100000;
-	
+
 	/**
 	 * The default fee associated with creating a file
 	 */
@@ -98,7 +98,7 @@ public class HederaNode implements Serializable {
 	 * The default fee associated with a get records query against a file
 	 */
 	public long fileGetRecordsQueryFee = 100000;
-	
+
 	/**
 	 * The default fee associated with creating a smart contract
 	 */
@@ -185,34 +185,34 @@ public class HederaNode implements Serializable {
 			openChannel();
 		}
 
-    }
-    
-    /**
-     * Gets the host for this node
+	}
+
+	/**
+	 * Gets the host for this node
 	 * @return {@link String}
-     */
-    public String getHost() {
+	 */
+	public String getHost() {
 
 
-        return this.host;
-    }
+		return this.host;
+	}
 
-    /**
-     * Gets the port used to access this node
+	/**
+	 * Gets the port used to access this node
 	 * @return {@link Integer}
-     */
-    public int getPort() {
+	 */
+	public int getPort() {
 
 
-        return this.port;
-    }
+		return this.port;
+	}
 
-    /**
-     * Sets the host for this node
+	/**
+	 * Sets the host for this node
 	 * @param host {@link String}
 	 * @throws InterruptedException in the event of a node communication error 
-     */
-    public void setHost(String host) throws InterruptedException {
+	 */
+	public void setHost(String host) throws InterruptedException {
 
 		if (!host.equals(this.host)) {
 			// close the current connection if open
@@ -221,14 +221,14 @@ public class HederaNode implements Serializable {
 			openChannel();
 		}
 
-    }
+	}
 
-    /**
-     * Sets the port used to access this node
+	/**
+	 * Sets the port used to access this node
 	 * @param port {@link Integer}
 	 * @throws InterruptedException in the event of a node communication error 
-     */
-    public void setPort(int port) throws InterruptedException {
+	 */
+	public void setPort(int port) throws InterruptedException {
 
 		this.port = port;
 		if (port != this.port) {
@@ -238,20 +238,20 @@ public class HederaNode implements Serializable {
 			openChannel();
 		}
 
-    }
+	}
 
-    /**
-     * Sets the account ID for this node based upon an existing HederaAccountID object
+	/**
+	 * Sets the account ID for this node based upon an existing HederaAccountID object
 	 * @param accountID {@link HederaAccountID}
 	 */
 	public void setAccountID(HederaAccountID accountID) {
 
 		this.accountID = accountID;
 
-    }
-    
-    /**
-     * Sets the account ID for this node based upon shardNum, realmNum and accountNum
+	}
+
+	/**
+	 * Sets the account ID for this node based upon shardNum, realmNum and accountNum
 	 * @param shardNum {@link Long}
 	 * @param realmNum {@link Long}
 	 * @param accountNum {@link Long}
@@ -261,10 +261,10 @@ public class HederaNode implements Serializable {
 		HederaAccountID accountID = new HederaAccountID(shardNum, realmNum, accountNum);
 		this.accountID = accountID;
 
-    }
-    
-    /**
-     * Gets the account ID for this node
+	}
+
+	/**
+	 * Gets the account ID for this node
 	 * @return {@link HederaAccountID}
 	 */
 	public HederaAccountID getAccountID() {
@@ -272,7 +272,7 @@ public class HederaNode implements Serializable {
 
 
 		return this.accountID;
-    }
+	}
 
 	/**
 	 * Sends a transaction to a node to create an account and returns the result of the request
@@ -288,7 +288,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasCryptoCreateAccount()) {
 			openChannel();
 			CryptoServiceGrpc.CryptoServiceBlockingStub blockingStub = CryptoServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -306,12 +306,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if (transResult != null && response != null) {		
+		if (transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to add a claim to an account and returns the result of the request
@@ -327,7 +327,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasCryptoAddClaim()) {
 			openChannel();
 			CryptoServiceGrpc.CryptoServiceBlockingStub blockingStub = CryptoServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -344,12 +344,12 @@ public class HederaNode implements Serializable {
 		} else {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to transfer tokens from an account to another and returns the result of the request
@@ -365,7 +365,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasCryptoTransfer()) {
 			openChannel();
 			CryptoServiceGrpc.CryptoServiceBlockingStub blockingStub = CryptoServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -389,12 +389,12 @@ public class HederaNode implements Serializable {
 		} else {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to transfer tokens from an account to another and returns the result of the request
@@ -410,7 +410,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasCryptoUpdateAccount()) {
 			openChannel();
 			CryptoServiceGrpc.CryptoServiceBlockingStub blockingStub = CryptoServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -427,13 +427,13 @@ public class HederaNode implements Serializable {
 		} else {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
-		if(transResult != null && response != null) {		
-		    transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
+		if(transResult != null && response != null) {
+			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
-	
+	}
+
 	/**
 	 * Sends a transaction to a node to append to a file and returns the result of the request
 	 * @param transaction the {@link HederaTransaction} to send
@@ -448,7 +448,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasFileAppend()) {
 			openChannel();
 			FileServiceGrpc.FileServiceBlockingStub blockingStub = FileServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -465,13 +465,13 @@ public class HederaNode implements Serializable {
 		} else {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
-	
+	}
+
 	/**
 	 * Sends a transaction to a node to create a file and returns the result of the request
 	 * @param transaction the {@link HederaTransaction} to send
@@ -486,7 +486,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasFileCreate()) {
 			openChannel();
 			FileServiceGrpc.FileServiceBlockingStub blockingStub = FileServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -504,12 +504,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to delete a file and returns the result of the request
@@ -525,7 +525,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasFileDelete()) {
 			openChannel();
 			FileServiceGrpc.FileServiceBlockingStub blockingStub = FileServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -543,12 +543,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to update a file and returns the result of the request
@@ -564,7 +564,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasFileUpdate()) {
 			openChannel();
 			FileServiceGrpc.FileServiceBlockingStub blockingStub = FileServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -582,12 +582,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to call a smart contract function and returns the result of the request
@@ -603,7 +603,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasContractCall()) {
 			openChannel();
 			SmartContractServiceGrpc.SmartContractServiceBlockingStub blockingStub = SmartContractServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -621,12 +621,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to create a smart contract instance and returns the result of the request
@@ -642,7 +642,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasContractCreateInstance()) {
 			openChannel();
 			SmartContractServiceGrpc.SmartContractServiceBlockingStub blockingStub = SmartContractServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -660,12 +660,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a transaction to a node to create a smart contract instance and returns the result of the request
@@ -681,7 +681,7 @@ public class HederaNode implements Serializable {
 
 		TransactionResponse response = null;
 		HederaTransactionResult transResult = new HederaTransactionResult();
-		
+
 		if (transaction.getProtobuf().getBody().hasContractUpdateInstance()) {
 			openChannel();
 			SmartContractServiceGrpc.SmartContractServiceBlockingStub blockingStub = SmartContractServiceGrpc.newBlockingStub(this.grpcChannel);
@@ -699,12 +699,12 @@ public class HederaNode implements Serializable {
 			throw new IllegalStateException("Invalid transaction type.");
 		}
 
-		if(transResult != null && response != null) {		
+		if(transResult != null && response != null) {
 			transResult.setPrecheckResult(response.getNodeTransactionPrecheckCode());
 		}
 
 		return transResult;
-	}	
+	}
 
 	/**
 	 * Sends a query to a node to call a local smart contract function and returns the result of the request
@@ -742,7 +742,7 @@ public class HederaNode implements Serializable {
 
 		return response;
 	}
-	
+
 	/**
 	 * Sends a query to a node to get a smart contract's byte code and returns the result of the request
 	 * @param query the {@link HederaQuery} to send
@@ -1067,7 +1067,7 @@ public class HederaNode implements Serializable {
 
 		return response;
 	}
-	
+
 	/**
 	 * Sends a query to a node to get file contents and returns the result of the request
 	 * @param query the {@link HederaQuery} to send
@@ -1139,7 +1139,7 @@ public class HederaNode implements Serializable {
 
 		return response;
 	}
-	
+
 	private void shutdown() throws InterruptedException {
 
 		if (this.grpcChannel != null) {
@@ -1151,7 +1151,7 @@ public class HederaNode implements Serializable {
 		}
 
 	}
-	
+
 	private void openChannel() {
 		if (this.grpcChannel == null) {
 			if (!host.equals("") && (port != 0)) {

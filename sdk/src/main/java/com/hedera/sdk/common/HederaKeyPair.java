@@ -12,9 +12,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.codec.DecoderException;
-import org.bouncycastle.util.encoders.Hex;
 import com.google.protobuf.ByteString;
-import com.hedera.sdk.common.HederaContractID;
 import com.hedera.sdk.cryptography.CryptoUtils;
 import com.hedera.sdk.cryptography.EDKeyPair;
 import com.hedera.sdk.cryptography.Seed;
@@ -29,7 +27,6 @@ import com.hederahashgraph.api.proto.java.GetByKeyQuery;
 import com.hederahashgraph.api.proto.java.GetByKeyResponse;
 import com.hederahashgraph.api.proto.java.Key;
 import com.hederahashgraph.api.proto.java.Response;
-import com.hederahashgraph.api.proto.java.ResponseCodeEnum;
 import com.hederahashgraph.api.proto.java.ResponseHeader;
 
 /**

@@ -26,11 +26,11 @@ public class ExampleUtilities {
 	public static long nodeAccountShard = 0;
 	public static long nodeAccountRealm = 0;
 	public static long nodeAccountNum = 0;
-	
+
 	public static String pubKey = "";
 	public static String privKey = "";
 	public static String keyType = "";
-	
+
 	public static long payAccountShard = 0;
 	public static long payAccountRealm = 0;
 	public static long payAccountNum = 0;
@@ -40,7 +40,7 @@ public class ExampleUtilities {
 		// load application properties
 		Properties applicationProperties = new Properties();
 		InputStream propertiesInputStream = null;
-			
+
 		try {
 
 			propertiesInputStream = new FileInputStream("node.properties");
@@ -55,11 +55,11 @@ public class ExampleUtilities {
 			nodeAccountShard = Long.parseLong(applicationProperties.getProperty("nodeAccountShard"));
 			nodeAccountRealm = Long.parseLong(applicationProperties.getProperty("nodeAccountRealm"));
 			nodeAccountNum = Long.parseLong(applicationProperties.getProperty("nodeAccountNum"));
-			
+
 			pubKey = applicationProperties.getProperty("pubkey");
 			privKey = applicationProperties.getProperty("privkey");
 			keyType = applicationProperties.getProperty("keyType");
-			
+
 			payAccountShard = Long.parseLong(applicationProperties.getProperty("payingAccountShard"));
 			payAccountRealm = Long.parseLong(applicationProperties.getProperty("payingAccountRealm"));
 			payAccountNum = Long.parseLong(applicationProperties.getProperty("payingAccountNum"));
@@ -77,22 +77,22 @@ public class ExampleUtilities {
 			}
 		}
 	}
-	
+
 	public static HederaTransactionAndQueryDefaults getTxQueryDefaults() throws InvalidKeySpecException, DecoderException {
 		// setup a set of defaults for query and transactions
 		HederaTransactionAndQueryDefaults txQueryDefaults = new HederaTransactionAndQueryDefaults();
 
 		// Get node details 
 		ExampleUtilities.getNodeDetails();
-		
+
 		// setup node account ID
 		HederaAccountID nodeAccountID = new HederaAccountID(ExampleUtilities.nodeAccountShard, ExampleUtilities.nodeAccountRealm, ExampleUtilities.nodeAccountNum);
 		// setup node
 		HederaNode node = new HederaNode(ExampleUtilities.nodeAddress, ExampleUtilities.nodePort, nodeAccountID);
-		
+
 		// setup paying account
 		HederaAccountID payingAccountID = new HederaAccountID(ExampleUtilities.payAccountShard, ExampleUtilities.payAccountRealm, ExampleUtilities.payAccountNum);
-		
+
 		// setup paying keypair
 		if (keyType ==  null) {
 			keyType = "SINGLE";
@@ -106,19 +106,19 @@ public class ExampleUtilities {
 		} else {
 			txQueryDefaults.payingKeyPair = new HederaKeyPair(KeyType.ED25519, ExampleUtilities.pubKey, ExampleUtilities.privKey);
 		}
-		
+
 		txQueryDefaults.memo = "Demo memo";
 		txQueryDefaults.node = node;
 		txQueryDefaults.payingAccountID = payingAccountID;
 		txQueryDefaults.transactionValidDuration = new HederaDuration(120, 0);
-		
+
 		return txQueryDefaults;
 	}
-	
+
 	public static void showResult(String result) {
 		String stars = "***********************************************************************************************";
 		String log = String.format("%s\n%s\n%s\n%s\n%s", "", stars, result, stars, "");
 		logger.info(log);
 	}
-	
+
 }

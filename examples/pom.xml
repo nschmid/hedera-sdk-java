@@ -4,12 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.hedera.hashgraph</groupId>
-		<artifactId>hedera-sdk-java</artifactId>
-		<version>0.2.0</version>
-	</parent>
 
+    <groupId>com.hedera.hashgraph</groupId>
 	<artifactId>examples</artifactId>
 	<version>0.2.0</version>
 
@@ -24,6 +20,11 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+    <properties>
+        <maven.compiler.source>10</maven.compiler.source>
+        <maven.compiler.target>10</maven.compiler.target>
+    </properties>
 
 	<developers>
 		<developer>
@@ -40,23 +41,6 @@
 		</repository>
 	</repositories>
 	<build>
-		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<targetPath>${project.build.directory}</targetPath>
-				<includes>
-					<include>logback.xml</include>
-					<include>simpleStorage.bin</include>
-				</includes>
-			</resource>
-		</resources>
 
 		<plugins>
 			<plugin>
@@ -110,9 +94,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.hedera.hashgraph</groupId>
-			<artifactId>java-sdk</artifactId>
-			<version>0.2.0</version>
+            <groupId>com.hedera.hashgraph</groupId>
+            <artifactId>sdk</artifactId>
+            <version>0.2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>io.grpc</groupId>
